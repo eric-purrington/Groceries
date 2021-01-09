@@ -1,0 +1,13 @@
+.footer {
+    margin: 250px 0px 0px;
+    background: linear-gradient(0deg, #22d1ee 0%, #e2f3f5 85%);
+}
+
+.footer p {
+    margin: 0px;
+    padding: 50px;
+    font-size: larger;
+    color: #0e153a;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
