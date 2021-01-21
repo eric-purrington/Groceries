@@ -5,20 +5,25 @@ import "./style.css";
 export default function Groceries() {
     const [newGroceryItem, setNewGroceryItem] = useState({});
     const [addAnItem, setAddAnItem] = useState(false);
-    let groceryList = JSON.parse(localStorage.getItem("groceryList")) || [];
+    var groceryList;
     // let addAnItem = false;
     // console.log(addAnItem)
 
+    if(JSON.parse(localStorage.getItem("groceryList"))) {
+        groceryList = JSON.parse(localStorage.getItem("groceryList"));
+    } else {
+        groceryList = [];
+    }
     useEffect(() => {
         
-    }, [addAnItem]);
+    }, [addAnItem, groceryList]);
 
     const addGroceryItem = event => {
         event.preventDefault();
 
         if (addAnItem) {
             groceryList.push(newGroceryItem);
-            JSON.stringify(localStorage.setItem("groceryList", groceryList));
+            localStorage.setItem("groceryList", JSON.stringify(groceryList));
 
             setAddAnItem(false);
         } else {
@@ -35,6 +40,24 @@ export default function Groceries() {
         console.log(newGroceryItem)
     }
 
+    const checkNeeded = event => {
+        console.log(event.target.value)
+        for (var i = 0; i < groceryList.length; i++) {
+            console.log(i)
+            if (groceryList[i].itemName == event.target.value && groceryList[i].needed == true) {
+                console.log("here")
+                console.log(event.target.checked)
+                event.target.checked = false;
+                console.log(event.target.checked)
+                groceryList[i].needed = false;
+            } else if (groceryList[i].itemName == event.target.value && groceryList[i].needed == false) {
+                groceryList[i].needed = true;
+                console.log("HERE")
+            }
+        }
+        localStorage.setItem("groceryList", JSON.stringify(groceryList));
+    }
+
     // function onItemChange() {
         // delete or mark as needed if statement
 
@@ -44,7 +67,7 @@ export default function Groceries() {
         <div className="groceriesContainer">
             <ul>
                 {groceryList.map(item => 
-                    <ListItem id={groceryList.indexOf(item.itemName)} name={item.itemName} needed={item.needed} />
+                    <ListItem key={groceryList.indexOf(item.itemName)} name={item.itemName} needed={item.needed} checkNeeded={checkNeeded} />
                 )}
             </ul>
             
